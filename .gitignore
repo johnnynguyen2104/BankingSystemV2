@@ -1,0 +1,10 @@
+/BankingSystem/BankingSystem/obj
+/BankingSystem/BankingSystem/bin
+/BankingSystem/BankingSystem.Business/obj
+/BankingSystem/BankingSystem.Business/bin
+/BankingSystem/BankingSystem.DAL/obj
+/BankingSystem/BankingSystem.DAL/bin
+/BankingSystem/BankingSystem.Tests/obj
+/BankingSystem/BankingSystem.Tests/bin
+/BankingSystem/packages
+/BankingSystem/.vs
