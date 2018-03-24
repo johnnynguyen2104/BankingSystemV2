@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,10 @@ namespace BankingSystem.DAL.DomainModels
         public DateTime CreatedDate { get; set; }
 
         public Nullable<DateTime> UpdatedDate { get; set; }
+
+        public BaseEntity()
+        {
+            CreatedDate = DateTime.Now;
+        }
     }
 }

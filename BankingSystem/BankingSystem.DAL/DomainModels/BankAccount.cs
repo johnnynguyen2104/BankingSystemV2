@@ -8,15 +8,15 @@ namespace BankingSystem.DAL.DomainModels
 {
     public class BankAccount : BaseEntity<int>
     {
-        public string AccountNumber { get; set; }
+        public int AccountNumber { get; set; }
 
         public decimal Amount { get; set; } 
 
-        public int CurrencyId { get; set; }
-
         public bool IsActive { get; set; }
 
-        public virtual Currency Currency { get; set; }
+        public byte[] RowVersion { get; set; }
+
+        public string Currency { get; set; }
 
         public virtual ICollection<TransactionHistory> Histories { get; set; }
     }

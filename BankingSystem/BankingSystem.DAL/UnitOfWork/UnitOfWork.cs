@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using BankingSystem.DAL.Interfaces;
+using BankingSystem.DAL.DbContexts;
+using BankingSystem.DAL.DomainModels;
 
 namespace BankingSystem.DAL.UnitOfWork
 {
@@ -11,7 +13,6 @@ namespace BankingSystem.DAL.UnitOfWork
     {
         private readonly IDbContext _dbContext;
         private bool _disposed;
-        public static string ConnectionString; 
 
         public UnitOfWork(IDbContext dbContext)
         {
@@ -20,7 +21,7 @@ namespace BankingSystem.DAL.UnitOfWork
 
         public UnitOfWork()
         {
-            //_dbContext = new FoodDeliveryContext(ConnectionString);
+            _dbContext = new BankingSystemDb();
         }
 
         public int CommitChanges()

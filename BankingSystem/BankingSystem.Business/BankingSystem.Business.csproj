@@ -51,12 +51,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Business\AccountBusiness.cs" />
+    <Compile Include="Currencies.cs" />
+    <Compile Include="DTOs\BaseRequest.cs" />
+    <Compile Include="DTOs\CurrenciesResponse.cs" />
+    <Compile Include="DTOs\ResponseAccountInfo.cs" />
+    <Compile Include="Interfaces\IAccountBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
+      <Project>{a26a23a7-5850-43aa-a0c5-1f51e08c3d87}</Project>
+      <Name>BankingSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BankingSystem.DAL\BankingSystem.DAL.csproj">
+      <Project>{18DB30A4-F338-417E-B97B-4A84BDAECF41}</Project>
+      <Name>BankingSystem.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

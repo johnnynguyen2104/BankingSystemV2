@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankingSystem.DAL.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -14,18 +15,8 @@ namespace BankingSystem.DAL.Interfaces
     {
         int CommitChanges();
 
-        //IRepository<Categories> CategoriesRepository { get; }
+        IRepository<int, BankAccount> AccountRepo { get;}
 
-        //IRepository<Restaurants> RestaurantsRepository { get; }
-
-        //IRepository<Menu> MenuRepository { get; }
-
-        //IRepository<Orders> OrdersRepository { get; }
-
-        //IRepository<Users> UsersRepository { get; }
-
-        //IRepository<UserTypes> UserTypesRepository { get; }
-
-        //IRepository<MenuDetails> MenuDetailsRepository { get; }
+        IRepository<int, TransactionHistory> TransactionHistoryRepo { get;}
     }
 }
