@@ -9,3 +9,5 @@
 /BankingSystem/packages
 /BankingSystem/.vs
 /BankingSystem/BankingSystem/App_Data
+/BankingSystem/BankingSystem.Common/obj
+/BankingSystem/BankingSystem.Common/bin
