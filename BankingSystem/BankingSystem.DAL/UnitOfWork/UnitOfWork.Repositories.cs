@@ -12,8 +12,33 @@ namespace BankingSystem.DAL.UnitOfWork
 {
     public partial class UnitOfWork
     {
-        public IRepository<int, BankAccount> AccountRepo => this.AccountRepo ?? new Repository<int, BankAccount>(_dbContext);
+        private IRepository<int, BankAccount> accountRepo;
+        private IRepository<int, TransactionHistory> transactionHistoryRepo;
 
-        public IRepository<int, TransactionHistory> TransactionHistoryRepo => this.TransactionHistoryRepo ?? new Repository<int, TransactionHistory>(_dbContext);
+        public IRepository<int, BankAccount> AccountRepo
+        {
+            get
+            {
+
+                if (accountRepo == null)
+                {
+                    accountRepo = new Repository<int, BankAccount>(_dbContext);
+                }
+                return accountRepo;
+            }
+        }
+
+        public IRepository<int, TransactionHistory> TransactionHistoryRepo
+        {
+            get
+            {
+                if (transactionHistoryRepo == null)
+                {
+                    transactionHistoryRepo = new Repository<int, TransactionHistory>(_dbContext);
+                }
+
+                return transactionHistoryRepo;
+            }
+        }
     }
 }

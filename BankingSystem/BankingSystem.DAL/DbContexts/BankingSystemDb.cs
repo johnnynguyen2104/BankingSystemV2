@@ -34,6 +34,12 @@ namespace BankingSystem.DAL.DbContexts
             return this.SaveChangesAsync();
         }
 
+
+        IDbSet<TEntity> IDbContext.Set<TEntity>()
+        {
+            return this.Set<TEntity>();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

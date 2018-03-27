@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="AppMessages.cs" />
     <Compile Include="CustomExceptions\ApiException.cs" />
-    <Compile Include="CustomExceptions\BadRequestException.cs" />
+    <Compile Include="CustomExceptions\BusinessServerErrorException.cs" />
     <Compile Include="Extenstions\ModelErrorExtensions.cs" />
     <Compile Include="Models\ResponseActionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

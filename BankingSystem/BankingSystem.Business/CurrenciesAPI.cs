@@ -1,4 +1,6 @@
 ﻿using BankingSystem.Business.DTOs;
+using BankingSystem.Common;
+using BankingSystem.Common.CustomExceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,12 @@ using System.Threading.Tasks;
 
 namespace BankingSystem.Business
 {
-    public class CurrenciesTestAPI
+    public interface ICurrenciesTestAPI {
+
+        Task<CurrenciesResponse> RequestCurrenciesAsyn(string inputCurrency);
+    }
+
+    public class CurrenciesTestAPI : ICurrenciesTestAPI
     {
         private List<string> SupportedCurrencies = new List<string>() { "THB", "USD" };
 
@@ -17,7 +24,7 @@ namespace BankingSystem.Business
 
                 if (!SupportedCurrencies.Any(a => a == inputCurrency))
                 {
-                    throw new Exception("Unsupported currencies.");
+                    throw new BusinessServerErrorException(string.Format(AppMessages.UnsupportedCurrency, inputCurrency));
                 }
 
                 CurrenciesResponse result = new CurrenciesResponse()
@@ -31,7 +38,7 @@ namespace BankingSystem.Business
                 }
                 else if (inputCurrency == "USD")
                 {
-                    result.Rates.Add("USD", 31.21);
+                    result.Rates.Add("THB", 31.21);
                 }
 
                 return result;

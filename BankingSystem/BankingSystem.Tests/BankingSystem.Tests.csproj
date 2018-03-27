@@ -39,6 +39,7 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="FizzWare.NBuilder, Version=5.0.0.138, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NBuilder.5.0.0\lib\net40\FizzWare.NBuilder.dll</HintPath>
     </Reference>
@@ -120,9 +121,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Businesses\AccountBusiness.Data.cs" />
+    <Compile Include="Businesses\AccountBusiness.Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="TestModels\FakeDbSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -131,6 +135,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BankingSystem.Business\BankingSystem.Business.csproj">
+      <Project>{027FB89C-BA3D-4671-A767-F79B1611482B}</Project>
+      <Name>BankingSystem.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
+      <Project>{A26A23A7-5850-43AA-A0C5-1F51E08C3D87}</Project>
+      <Name>BankingSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BankingSystem.DAL\BankingSystem.DAL.csproj">
+      <Project>{18DB30A4-F338-417E-B97B-4A84BDAECF41}</Project>
+      <Name>BankingSystem.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BankingSystem\BankingSystem.csproj">
       <Project>{57F2FE39-A626-46E1-B750-14B396A5B7FA}</Project>
       <Name>BankingSystem</Name>

@@ -19,7 +19,7 @@ namespace BankingSystem.Common.Extenstions
 
             if (codedMessage.Length == 2)
             {
-                model.Message = string.Join(",", codedMessage[0], codedMessage[1]);
+                model.Message = codedMessage[1];
             }
             else
             {

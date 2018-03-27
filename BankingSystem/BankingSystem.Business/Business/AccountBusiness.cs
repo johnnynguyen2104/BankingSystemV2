@@ -17,22 +17,25 @@ namespace BankingSystem.Business.Business
     public class AccountBusiness : IAccountBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICurrenciesTestAPI _currencyApi;
 
-        public AccountBusiness(IUnitOfWork unitOfWork)
+        public AccountBusiness(IUnitOfWork unitOfWork, ICurrenciesTestAPI api)
         {
             _unitOfWork = unitOfWork;
+            _currencyApi = api;
         }
 
         public AccountBusiness()
         {
             _unitOfWork = new UnitOfWork(new BankingSystemDb());
+            _currencyApi = new CurrenciesTestAPI();
         }
 
         public ResponseAccountInfo Balance(int accountNumber)
         {
             if (accountNumber <= 0)
             {
-                throw new BadRequestException(AppMessages.AccountNumberNegative);
+                throw new BusinessServerErrorException(AppMessages.AccountNumberNegative);
             }
 
             var account = _unitOfWork.AccountRepo.Read(a => a.AccountNumber == accountNumber)
@@ -45,7 +48,7 @@ namespace BankingSystem.Business.Business
                                                 }).SingleOrDefault();
             if (account == null)
             {
-                throw new BadRequestException(string.Format(AppMessages.AccountDoesntExist, accountNumber));
+                throw new BusinessServerErrorException(string.Format(AppMessages.AccountDoesntExistOrInactive, accountNumber));
             }
 
             account.Message = string.Format(AppMessages.InquiryAction, account.AccountNumber, account.Balance);
@@ -60,26 +63,43 @@ namespace BankingSystem.Business.Business
         {
             if (req == null)
             {
-                throw new BadRequestException("Null Argument.");
+                throw new BusinessServerErrorException(AppMessages.NullArgument);
             }
 
-            CurrenciesTestAPI currenciesAPI = new CurrenciesTestAPI();
-            var currenciesTask = currenciesAPI.RequestCurrenciesAsyn(req.Currency);
-            var accountTask = _unitOfWork.AccountRepo.ReadOneAsyn(a => a.AccountNumber == req.AccountNumber);
-
-            var account = await accountTask;
-            var currencies = await currenciesTask;
-
-            if (!currencies.Rates.ContainsKey(account.Currency))
+            if (req.AccountNumber <= 0)
             {
-                throw new BadRequestException(string.Format(AppMessages.AccountCurrencyNotSupport, account.AccountNumber, account.Currency));
+                throw new BusinessServerErrorException(AppMessages.AccountNumberNegative);
             }
 
-            decimal exchangedMoney = req.Amount * Convert.ToDecimal(currencies.Rates[account.Currency]);
+            if (req.Amount <= 0)
+            {
+                throw new BusinessServerErrorException(AppMessages.NegativeAmount);
+            }
+
+            decimal exchangedMoney = req.Amount;
+            var account = _unitOfWork.AccountRepo.ReadOne(a => a.AccountNumber == req.AccountNumber);
+
+            if (account == null)
+            {
+                throw new BusinessServerErrorException(string.Format(AppMessages.AccountDoesntExistOrInactive, req.AccountNumber));
+            }
+
+            if (req.Currency != account.Currency)
+            {
+                var currencies = await _currencyApi.RequestCurrenciesAsyn(req.Currency);
+
+                if (!currencies.Rates.ContainsKey(req.Currency))
+                {
+                    throw new BusinessServerErrorException(string.Format(AppMessages.AccountCurrencyNotSupport, account.AccountNumber, account.Currency));
+                }
+
+                exchangedMoney = req.Amount * Convert.ToDecimal(currencies.Rates[account.Currency]);
+
+            }
 
             if (exchangedMoney < 0)
             {
-                throw new BadRequestException(string.Format(AppMessages.ExchangedNegativeAmount, account.AccountNumber, account.Currency, req.Currency, currencies.Rates[account.Currency], exchangedMoney));
+                throw new BusinessServerErrorException(string.Format(AppMessages.ExchangedNegativeAmount, account.AccountNumber, account.Currency, exchangedMoney));
             }
 
             var oldBalance = account.Amount;
@@ -91,7 +111,7 @@ namespace BankingSystem.Business.Business
                 AccountNumber = account.AccountNumber,
                 Balance = account.Amount,
                 Currency = account.Currency,
-                Message = string.Format(AppMessages.DepositMessageDetails, account.AccountNumber, oldBalance, account.Amount, currencies.Rates[account.Currency], req.Currency)
+                Message = string.Format(AppMessages.DepositMessageDetails, account.AccountNumber, oldBalance, account.Amount, req.Currency)
             };
 
             CreateHistory(result.AccountId, ActionCode.Deposit, oldBalance, account.Amount, result.Message);
@@ -108,32 +128,49 @@ namespace BankingSystem.Business.Business
         {
             if (req == null)
             {
-                throw new BadRequestException("Null Argument.");
+                throw new BusinessServerErrorException(AppMessages.NullArgument);
             }
 
-            CurrenciesTestAPI currenciesAPI = new CurrenciesTestAPI();
-            var currenciesTask = currenciesAPI.RequestCurrenciesAsyn(req.Currency);
-            var accountTask = _unitOfWork.AccountRepo.ReadOneAsyn(a => a.AccountNumber == req.AccountNumber);
-
-            var account = await accountTask;
-            var currencies = await currenciesTask;
-
-            if (!currencies.Rates.ContainsKey(account.Currency))
+            if (req.AccountNumber <= 0)
             {
-                throw new BadRequestException(string.Format(AppMessages.AccountCurrencyNotSupport, account.AccountNumber, account.Currency));
+                throw new BusinessServerErrorException(AppMessages.AccountNumberNegative);
             }
 
-            decimal exchangedMoney = req.Amount * Convert.ToDecimal(currencies.Rates[account.Currency]);
+            if (req.Amount <= 0)
+            {
+                throw new BusinessServerErrorException(AppMessages.NegativeAmount);
+            }
+
+           
+            var account = _unitOfWork.AccountRepo.ReadOne(a => a.AccountNumber == req.AccountNumber);
+
+            if (account == null)
+            {
+                throw new BusinessServerErrorException(string.Format(AppMessages.AccountDoesntExistOrInactive, req.AccountNumber));
+            }
+
+            decimal exchangedMoney = req.Amount;
+            if (account.Currency != req.Currency)
+            {
+                var currencies = await _currencyApi.RequestCurrenciesAsyn(req.Currency);
+
+                if (!currencies.Rates.ContainsKey(req.Currency))
+                {
+                    throw new BusinessServerErrorException(string.Format(AppMessages.AccountCurrencyNotSupport, account.AccountNumber, account.Currency));
+                }
+
+                exchangedMoney = req.Amount * Convert.ToDecimal(currencies.Rates[account.Currency]);
+            }
 
             if (exchangedMoney < 0)
             {
-                throw new BadRequestException(string.Format(AppMessages.ExchangedNegativeAmount, account.AccountNumber, account.Currency, req.Currency, currencies.Rates[account.Currency], exchangedMoney));
+                throw new BusinessServerErrorException(string.Format(AppMessages.ExchangedNegativeAmount, account.AccountNumber, account.Currency, exchangedMoney));
             }
 
             var oldBalance = account.Amount;
             if (exchangedMoney > account.Amount)
             {
-                throw new BadRequestException(AppMessages.BalanceNotEnough);
+                throw new BusinessServerErrorException(AppMessages.BalanceNotEnough);
             }
             else
             {
@@ -146,7 +183,7 @@ namespace BankingSystem.Business.Business
                 AccountNumber = account.AccountNumber,
                 Balance = account.Amount,
                 Currency = account.Currency,
-                Message = string.Format(AppMessages.WithdrawMessageDetails, account.AccountNumber, oldBalance, account.Amount, currencies.Rates[account.Currency], req.Currency)
+                Message = string.Format(AppMessages.WithdrawMessageDetails, account.AccountNumber, oldBalance, account.Amount, req.Currency)
             };
 
             CreateHistory(result.AccountId, ActionCode.Withdraw, oldBalance, account.Amount, result.Message);

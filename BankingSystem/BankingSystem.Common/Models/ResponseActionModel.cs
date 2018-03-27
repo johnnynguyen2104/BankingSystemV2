@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BankingSystem.Common.Models
 {
+    /// <summary>
+    /// This model only use to return exception response in explicitly way
+    /// </summary>
     public class ResponseExceptionModel
     {
         public ResponseExceptionModel()
