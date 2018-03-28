@@ -105,7 +105,7 @@ namespace BankingSystem.DAL.Repositories
 
         public Task<TEntity> CreateAsyn(TEntity entity)
         {
-            return new Task<TEntity>(() =>
+            return Task.Run(() =>
             {
                 return Create(entity);
             });
@@ -113,35 +113,35 @@ namespace BankingSystem.DAL.Repositories
 
         public Task<IQueryable<TEntity>> ReadAsyn(Expression<Func<TEntity, bool>> expression)
         {
-            return new Task<IQueryable<TEntity>>(() => {
+            return Task.Run(() => {
                 return Read(expression);
             });
         }
 
         public Task<TEntity> ReadOneAsyn(Expression<Func<TEntity, bool>> expression)
         {
-            return new Task<TEntity>(() => {
+            return Task.Run(() => {
                 return ReadOne(expression);
             });
         }
 
         public Task<bool> UpdateAsyn(TEntity entity)
         {
-            return new Task<bool>(() => {
+            return Task.Run(() => {
                 return Update(entity);
             });
         }
 
         public Task<bool> DeleteAsyn(Expression<Func<TEntity, bool>> expression)
         {
-            return new Task<bool>(() => {
+            return Task.Run(() => {
                 return Delete(expression);
             }); 
         }
 
         public Task<bool> DeleteAsyn(TEntity entity)
         {
-            return new Task<bool>(() => {
+            return Task.Run(() => {
 
                 return Delete(entity);
             });
@@ -149,7 +149,7 @@ namespace BankingSystem.DAL.Repositories
 
         public Task UpdateValuesAsyn(TEntity entity, string propertyName, string value)
         {
-            return new Task(() => { UpdateValues(entity, propertyName, value); });
+            return Task.Run(() => { UpdateValues(entity, propertyName, value); });
         }
     }
 }
