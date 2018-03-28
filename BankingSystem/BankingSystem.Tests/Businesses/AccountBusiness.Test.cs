@@ -81,7 +81,7 @@ namespace BankingSystem.Tests.Businesses
         {
             //Arr
             dbcontextMock.Setup(a => a.Set<BankAccount>())
-                .Returns(new FakeDbSet<BankAccount>(Builder<BankAccount>.CreateListOfSize(5).Build()));
+                .Returns(new FakeDbSet<BankAccount>(Builder<BankAccount>.CreateListOfSize(5).All().With(a => a.IsActive = true).Build()));
             dbcontextMock.Setup(a => a.Set<TransactionHistory>())
               .Returns(new FakeDbSet<TransactionHistory>(Builder<TransactionHistory>.CreateListOfSize(2).Build()));
             //Act
@@ -150,7 +150,7 @@ namespace BankingSystem.Tests.Businesses
             rates.Add("USD", 3);
 
             dbcontextMock.Setup(a => a.Set<BankAccount>())
-                .Returns(new FakeDbSet<BankAccount>(Builder<BankAccount>.CreateListOfSize(2).Build()));
+                .Returns(new FakeDbSet<BankAccount>(Builder<BankAccount>.CreateListOfSize(2).All().With(a => a.IsActive = true).Build()));
             testApiMock.Setup(a => a.RequestCurrenciesAsyn(req.Currency))
                 .Returns(Task.FromResult(new CurrenciesResponse()
                 {
@@ -186,7 +186,7 @@ namespace BankingSystem.Tests.Businesses
             rates.Add("USD", -3);
             var accounts = Builder<BankAccount>.CreateListOfSize(2).Build();
             accounts[0].Currency = "THB";
-
+            accounts[0].IsActive = true;
 
             dbcontextMock.Setup(a => a.Set<BankAccount>())
                 .Returns(new FakeDbSet<BankAccount>(accounts));
@@ -323,7 +323,7 @@ namespace BankingSystem.Tests.Businesses
             rates.Add("USD", 3);
 
             dbcontextMock.Setup(a => a.Set<BankAccount>())
-                .Returns(new FakeDbSet<BankAccount>(Builder<BankAccount>.CreateListOfSize(2).Build()));
+                .Returns(new FakeDbSet<BankAccount>(Builder<BankAccount>.CreateListOfSize(2).All().With(a => a.IsActive = true).Build()));
             testApiMock.Setup(a => a.RequestCurrenciesAsyn(req.Currency))
                 .Returns(Task.FromResult(new CurrenciesResponse()
                 {
@@ -359,7 +359,7 @@ namespace BankingSystem.Tests.Businesses
             rates.Add("USD", -3);
             var accounts = Builder<BankAccount>.CreateListOfSize(2).Build();
             accounts[0].Currency = "THB";
-
+            accounts[0].IsActive = true;
 
             dbcontextMock.Setup(a => a.Set<BankAccount>())
                 .Returns(new FakeDbSet<BankAccount>(accounts));

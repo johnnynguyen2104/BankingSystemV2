@@ -55,21 +55,9 @@
     <Compile Include="Interfaces\IDbContext.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201803201211340_Init.cs" />
-    <Compile Include="Migrations\201803201211340_Init.Designer.cs">
-      <DependentUpon>201803201211340_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803220410208_concurrency.cs" />
-    <Compile Include="Migrations\201803220410208_concurrency.Designer.cs">
-      <DependentUpon>201803220410208_concurrency.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803220442381_UpdateAccount.cs" />
-    <Compile Include="Migrations\201803220442381_UpdateAccount.Designer.cs">
-      <DependentUpon>201803220442381_UpdateAccount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803220734040_UpdateDefaultDataForCreatedDate.cs" />
-    <Compile Include="Migrations\201803220734040_UpdateDefaultDataForCreatedDate.Designer.cs">
-      <DependentUpon>201803220734040_UpdateDefaultDataForCreatedDate.cs</DependentUpon>
+    <Compile Include="Migrations\201803280428142_Initial.cs" />
+    <Compile Include="Migrations\201803280428142_Initial.Designer.cs">
+      <DependentUpon>201803280428142_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,17 +70,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803201211340_Init.resx">
-      <DependentUpon>201803201211340_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803220410208_concurrency.resx">
-      <DependentUpon>201803220410208_concurrency.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803220442381_UpdateAccount.resx">
-      <DependentUpon>201803220442381_UpdateAccount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803220734040_UpdateDefaultDataForCreatedDate.resx">
-      <DependentUpon>201803220734040_UpdateDefaultDataForCreatedDate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803280428142_Initial.resx">
+      <DependentUpon>201803280428142_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

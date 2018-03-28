@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace BankingSystem.Controllers
 {
-    [ApiExceptionFilter]
+    
     public class AccountController : BaseController
     {
         private readonly IAccountBusiness _accountBusiness;

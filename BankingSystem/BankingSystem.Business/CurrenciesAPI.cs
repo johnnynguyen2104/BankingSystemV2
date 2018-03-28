@@ -20,7 +20,8 @@ namespace BankingSystem.Business
 
         public Task<CurrenciesResponse> RequestCurrenciesAsyn(string inputCurrency)
         {
-            return new Task<CurrenciesResponse>(() => {
+            return Task.Run(() =>
+            {
 
                 if (!SupportedCurrencies.Any(a => a == inputCurrency))
                 {

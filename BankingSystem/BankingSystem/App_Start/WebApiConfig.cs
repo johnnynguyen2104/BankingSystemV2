@@ -12,7 +12,7 @@ namespace BankingSystem
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            config.Filters.Add(new ApiExceptionFilterAttribute());
             // Web API routes
             config.MapHttpAttributeRoutes();
 

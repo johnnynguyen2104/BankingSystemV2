@@ -38,7 +38,7 @@ namespace BankingSystem.Business.Business
                 throw new BusinessServerErrorException(AppMessages.AccountNumberNegative);
             }
 
-            var account = _unitOfWork.AccountRepo.Read(a => a.AccountNumber == accountNumber)
+            var account = _unitOfWork.AccountRepo.Read(a => a.AccountNumber == accountNumber && a.IsActive)
                                                 .Select(a => new ResponseAccountInfo()
                                                 {
                                                     AccountId = a.Id,
@@ -77,7 +77,7 @@ namespace BankingSystem.Business.Business
             }
 
             decimal exchangedMoney = req.Amount;
-            var account = _unitOfWork.AccountRepo.ReadOne(a => a.AccountNumber == req.AccountNumber);
+            var account = _unitOfWork.AccountRepo.ReadOne(a => a.AccountNumber == req.AccountNumber && a.IsActive);
 
             if (account == null)
             {
@@ -88,7 +88,7 @@ namespace BankingSystem.Business.Business
             {
                 var currencies = await _currencyApi.RequestCurrenciesAsyn(req.Currency);
 
-                if (!currencies.Rates.ContainsKey(req.Currency))
+                if (!currencies.Rates.ContainsKey(account.Currency))
                 {
                     throw new BusinessServerErrorException(string.Format(AppMessages.AccountCurrencyNotSupport, account.AccountNumber, account.Currency));
                 }
@@ -104,6 +104,7 @@ namespace BankingSystem.Business.Business
 
             var oldBalance = account.Amount;
             account.Amount += exchangedMoney;
+            account.UpdatedDate = DateTime.Now;
 
             ResponseAccountInfo result = new ResponseAccountInfo()
             {
@@ -142,7 +143,7 @@ namespace BankingSystem.Business.Business
             }
 
            
-            var account = _unitOfWork.AccountRepo.ReadOne(a => a.AccountNumber == req.AccountNumber);
+            var account = _unitOfWork.AccountRepo.ReadOne(a => a.AccountNumber == req.AccountNumber && a.IsActive);
 
             if (account == null)
             {
@@ -154,7 +155,7 @@ namespace BankingSystem.Business.Business
             {
                 var currencies = await _currencyApi.RequestCurrenciesAsyn(req.Currency);
 
-                if (!currencies.Rates.ContainsKey(req.Currency))
+                if (!currencies.Rates.ContainsKey(account.Currency))
                 {
                     throw new BusinessServerErrorException(string.Format(AppMessages.AccountCurrencyNotSupport, account.AccountNumber, account.Currency));
                 }
@@ -175,6 +176,7 @@ namespace BankingSystem.Business.Business
             else
             {
                 account.Amount -= exchangedMoney;
+                account.UpdatedDate = DateTime.Now;
             }
 
             var result = new ResponseAccountInfo()
