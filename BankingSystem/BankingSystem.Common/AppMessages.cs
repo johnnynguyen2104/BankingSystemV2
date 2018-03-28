@@ -8,6 +8,8 @@ namespace BankingSystem.Common
 {
     public class AppMessages
     {
+        public static readonly string ConcuurrencyError = "There are one or some update to your account, please try it again.";
+
         public static readonly string UnsupportedCurrency = "Unsupport currency {0}";
 
         public static readonly string NullArgument = "Null Argument.";

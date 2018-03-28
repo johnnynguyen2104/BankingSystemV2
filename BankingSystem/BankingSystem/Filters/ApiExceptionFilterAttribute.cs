@@ -24,7 +24,7 @@ namespace BankingSystem.Filters
 
                 context.Response
                     = context.Request.CreateResponse(
-                    exception.StatusCode, exception.Message.ToRequestErrorModel());
+                    exception.StatusCode, exception.ToRequestErrorModel());
 
             }
         }

@@ -32,6 +32,7 @@ namespace BankingSystem.Controllers
        }
 
         [HttpPost]
+        [ConcurrencyExceptionFilter]
         [Route("api/account/{accountNumber:int}/Withdraw")]
         public async Task<IHttpActionResult> Withdraw(BaseRequest req)
         {
@@ -41,6 +42,7 @@ namespace BankingSystem.Controllers
         }
 
         [HttpPost]
+        [ConcurrencyExceptionFilter]
         [Route("api/account/{accountNumber:int}/Deposit")]
         public async Task<IHttpActionResult> Deposit(BaseRequest req)
         {

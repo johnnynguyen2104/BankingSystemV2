@@ -45,17 +45,17 @@ namespace BankingSystem.Common.Extenstions
             return errorList;
         }
 
-        public static List<ResponseExceptionModel> ToRequestErrorModel(this string message)
+        public static List<ResponseExceptionModel> ToRequestErrorModel(this Exception exception, string customMessage = null)
         {
             var model = new ResponseExceptionModel();
-            var codedMessage = message.Split(new[] { "::" }, StringSplitOptions.RemoveEmptyEntries);
+            var codedMessage = exception.Message.Split(new[] { "::" }, StringSplitOptions.RemoveEmptyEntries);
             if (codedMessage.Length == 2)
             {
                 model.Message = string.Join(",", codedMessage[0], codedMessage[1]);
             }
             else
             {
-                model.Message = message;
+                model.Message = customMessage ?? exception.Message;
             }
 
             return new List<ResponseExceptionModel> { model };
