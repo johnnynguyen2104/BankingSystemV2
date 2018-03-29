@@ -4,6 +4,7 @@
 ## Introduction
 
 This is a simple Banking system, I just base on some main functionals such as Balance, Withdraw, Deposit.
+
 ## Objectives
 
 I designed the architecture for this project base on 3 Layers pattern, Repository and OOD (SOLID). Moreover, this project represent for solving the concurrency problem and adapt some non-functional requirements such as:
@@ -12,9 +13,13 @@ I designed the architecture for this project base on 3 Layers pattern, Repositor
 2. Readability.
 3. Testability.
 
+## How Far That I Got ?
+
+I finished almost everythings and the thing that I missed is create a feature on client project to request to API in an automatic and random fashion with a combination of withdraws and deposits taking place over a given period of time to prove that the API can handle Concurrency problem.
+
 ## Technologies
 
-Asp.Net WebAPI, Entity Framework, Nunit, MOQ, NBuilder, Shouldly. 
+Asp.Net WebAPI 2, Entity Framework, Nunit, MOQ, NBuilder, Shouldly. 
 
 ## How to build code
 
@@ -44,12 +49,18 @@ The purpose of all my Unit test are to prove my logic is corrected and this is a
 
 The way I wrote those test cases are Exception cases => Functional cases => Successful cases.
 
-## Improvement
+### Biggest Challenges
+
+My biggest challenges in this assignment is handling different currencies and make it work corrtecly by creating Unit Test. 
+
+### Improvements
 There are many improvement for this project following below:
 
-+ Create more unit test for this project such as Presentation Layer, DAL, Service Layer.
++ Creating more unit test for this project such as Presentation Layer, DAL, Service Layer.
 
 + Creating more log so I can easier to trace problems.
+
++ Creating concurrency test + performance test.
 
 Thanks for reading this.;)
 
